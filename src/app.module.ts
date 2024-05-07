@@ -5,6 +5,7 @@ import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { dbConfig } from '../data-source';
+import { ServiceModule } from './service/service.module';
 
 
 @Module({
@@ -13,6 +14,7 @@ import { dbConfig } from '../data-source';
     // Directly use dataSource for TypeORM configuration
     TypeOrmModule.forRoot(dbConfig),
     SubscriptionsModule,
+    ServiceModule,
   ],
   controllers: [AppController],
   providers: [AppService],
