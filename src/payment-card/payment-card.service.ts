@@ -15,11 +15,12 @@ export class PaymentCardService {
 
 
   create(createPaymentCardDto: CreatePaymentCardDto) {
+    console.log(createPaymentCardDto, "backend called with this data")
     return this.paymentCardRepository.save(createPaymentCardDto)
   }
 
   findAll() {
-    return `This action returns all paymentCard`;
+    return this.paymentCardRepository.find();
   }
 
   findOne(id: number) {
