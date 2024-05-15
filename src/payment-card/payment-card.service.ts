@@ -24,14 +24,14 @@ export class PaymentCardService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} paymentCard`;
+    return this.paymentCardRepository.findOneBy({id})
   }
 
   update(id: number, updatePaymentCardDto: UpdatePaymentCardDto) {
-    return `This action updates a #${id} paymentCard`;
+    return this.paymentCardRepository.update(id, updatePaymentCardDto)
   }
 
   remove(id: number) {
-    return `This action removes a #${id} paymentCard`;
+    return this.paymentCardRepository.delete(id)
   }
 }

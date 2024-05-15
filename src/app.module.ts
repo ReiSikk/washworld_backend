@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { dbConfig } from '../data-source';
 import { ServiceModule } from './service/service.module';
 import { PaymentCardModule } from './payment-card/payment-card.module';
+import { CarModule } from './car/car.module';
 
 
 @Module({
@@ -17,6 +18,7 @@ import { PaymentCardModule } from './payment-card/payment-card.module';
     SubscriptionsModule,
     ServiceModule,
     PaymentCardModule,
+    CarModule,
   ],
   controllers: [AppController],
   providers: [AppService],
