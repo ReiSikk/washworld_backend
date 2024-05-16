@@ -8,6 +8,7 @@ import { dbConfig } from '../data-source';
 import { ServiceModule } from './service/service.module';
 import { PaymentCardModule } from './payment-card/payment-card.module';
 import { CarModule } from './car/car.module';
+import { WashStationModule } from './wash-station/wash-station.module';
 
 
 @Module({
@@ -19,6 +20,7 @@ import { CarModule } from './car/car.module';
     ServiceModule,
     PaymentCardModule,
     CarModule,
+    WashStationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
