@@ -1,6 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ConflictException } from '@nestjs/common';
 import { CreateMemberDto } from './dto/create-member.dto';
-import { UpdateMemberDto } from './dto/update-member.dto';
 import { Member } from './entities/member.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -14,23 +13,45 @@ export class MemberService {
     private memberRepository: Repository<Member>,
   ) {}
 
-  create(createMemberDto: CreateMemberDto) {
-    return this.memberRepository.save(createMemberDto);
+  async create(createMemberDto: CreateMemberDto): Promise<Member> {
+    const existingUser = await this.memberRepository.findOne({ where: { email: createMemberDto.email } });
+
+    if (existingUser) {
+      throw new ConflictException('Username is already taken');
+    }
+  
+
+
+    const member = new Member();
+    member.email = createMemberDto.email;
+    member.password = createMemberDto.password;
+    //member.role = Role.Member;
+
+  /*   if(createMemberDto.email.endsWith('@finance.admin')){
+      member.role = Role.Admin;
+    }  */
+
+    return this.memberRepository.save(member);
   }
 
-  findAll() {
-    return this.memberRepository.find();
-  }
+
 
   async findOne(email: string): Promise<Member | undefined> {
     return await this.memberRepository.findOne({ where: { email } });
  }
+ async findUserById(id: number) : Promise<Member> {
+   return this.memberRepository.findOne({where: {id: id}});
+}
 
-  update(id: number, updateMemberDto: UpdateMemberDto) {
-    return `This action updates a #${id} member`;
-  }
+async findAll(): Promise<Member[]> {
+ return this.memberRepository.find();
+}
 
-  remove(id: number) {
-    return `This action removes a #${id} member`;
-  }
+/* async upgrade(memberId: number) {
+  const member = await this.findUserById(memberId); // find user by the userId
+  member.role = Role.PremiumUser; // changing the role in memory
+  return this.memberRepository.save(member); //saving the updated user obj. to the db
+} */
+
+  
 }
