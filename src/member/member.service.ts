@@ -22,9 +22,9 @@ export class MemberService {
     return this.memberRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} member`;
-  }
+  async findOne(email: string): Promise<Member | undefined> {
+    return await this.memberRepository.findOne({ where: { email } });
+ }
 
   update(id: number, updateMemberDto: UpdateMemberDto) {
     return `This action updates a #${id} member`;

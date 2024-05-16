@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { dbConfig } from '../data-source';
 import { ServiceModule } from './service/service.module';
 import { MemberModule } from './member/member.module';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
@@ -17,6 +18,7 @@ import { MemberModule } from './member/member.module';
     SubscriptionsModule,
     ServiceModule,
     MemberModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

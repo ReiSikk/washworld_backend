@@ -20,12 +20,12 @@ export class Member {
      @Column()
     phone: string;
     
-    @Column()
+    @Column({ default: false })
     active: boolean;
     
      @Column()
     joinDate: Date;
     
-    @Column()
+    @Column({ default: 0 })
     loyaltyPoints: number;
 }
