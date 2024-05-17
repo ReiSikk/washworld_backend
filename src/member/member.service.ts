@@ -25,6 +25,9 @@ export class MemberService {
     const member = new Member();
     member.email = createMemberDto.email;
     member.password = createMemberDto.password;
+    member.firstName = createMemberDto.firstName;
+    member.lastName = createMemberDto.lastName;
+    member.phone = createMemberDto.phone;
     //member.role = Role.Member;
 
   /*   if(createMemberDto.email.endsWith('@finance.admin')){

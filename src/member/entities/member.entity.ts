@@ -23,7 +23,7 @@ export class Member {
     @Column({ default: false })
     active: boolean;
     
-     @Column()
+     @Column({ default: () => 'CURRENT_TIMESTAMP' })
     joinDate: Date;
     
     @Column({ default: 0 })
