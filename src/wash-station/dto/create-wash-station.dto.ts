@@ -1,5 +1,6 @@
 import { IsNotEmpty, IsNumber, IsString, Max, MaxLength } from "class-validator";
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { WashBay } from "../../washbay/entities/washbay.entity";
 
 
 @Entity()
@@ -30,6 +31,14 @@ openingTime: string;
 @IsNotEmpty()
 closingTime: string;
 
-/* @OneToMany(() => WashBay, washBay => washBay.washStation)
-washBays: WashBay[]; */
+washBays: WashBay[];  
+
+constructor(stationNr: string, stationName: string, address: string, openingTime: string, closingTime: string, washBays: WashBay[]) {
+  this.stationNr = stationNr;
+  this.stationName = stationName;
+  this.address = address;
+  this.openingTime = openingTime;
+  this.closingTime = closingTime;
+  this.washBays = washBays;
+}
 }
