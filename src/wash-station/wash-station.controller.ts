@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException } from '@nestjs/common';
 import { WashStationService } from './wash-station.service';
 import { CreateWashStationDto } from './dto/create-wash-station.dto';
 import { UpdateWashStationDto } from './dto/update-wash-station.dto';
@@ -20,6 +20,15 @@ export class WashStationController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.washStationService.findOne(+id);
+  }
+
+  @Get(':id/washbays')
+  async getWashBays(@Param('id') id: number) {
+    const washStation = await this.washStationService.findWithWashBays(id);
+    if (!washStation) {
+      throw new NotFoundException('WashStation not found');
+    }
+    return washStation.washBays;
   }
 
   @Patch(':id')

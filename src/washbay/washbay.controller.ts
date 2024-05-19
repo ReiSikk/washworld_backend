@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Request, Query } from '@nestjs/common';
 import { WashBayService } from './washbay.service';
 import { CreateWashBayDto } from './dto/create-washbay.dto';
 import { UpdateWashbayDto } from './dto/update-washbay.dto';
