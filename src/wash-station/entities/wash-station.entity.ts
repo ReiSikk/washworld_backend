@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-/* import { WashBay } from './washBay.entity'; */
+import { WashBay } from '../../washbay/entities/washbay.entity';
 
 @Entity()
 export class WashStation {
@@ -21,7 +21,7 @@ export class WashStation {
   @Column('time')
   closingTime: string;
 
-/*   @OneToMany(() => WashBay, (washBay) => washBay.washStation)
-  washBays: WashBay[]; */
+  @OneToMany(() => WashBay, (washBay) => washBay.washStation)
+  washBays: WashBay[];
 }
 

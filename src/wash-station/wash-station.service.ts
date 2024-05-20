@@ -32,6 +32,10 @@ export class WashStationService {
     return this.washStationRepository.save(createWashStationDto)
   }
 
+  async findWithWashBays(id: number): Promise<WashStation> {
+    return this.washStationRepository.findOne({ where: { id: id }, relations: ['washBays'] });
+}
+
   findAll() {
     return this.washStationRepository.find();
   }

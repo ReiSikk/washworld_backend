@@ -9,6 +9,7 @@ import { ServiceModule } from './service/service.module';
 import { PaymentCardModule } from './payment-card/payment-card.module';
 import { CarModule } from './car/car.module';
 import { WashStationModule } from './wash-station/wash-station.module';
+import { WashbayModule } from './washbay/washbay.module';
 
 
 @Module({
@@ -21,6 +22,7 @@ import { WashStationModule } from './wash-station/wash-station.module';
     PaymentCardModule,
     CarModule,
     WashStationModule,
+    WashbayModule,
   ],
   controllers: [AppController],
   providers: [AppService],
