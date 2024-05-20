@@ -11,14 +11,14 @@ export class AuthService {
     private jwtService: JwtService
     ) {}
 
-    async signIn(user:any, password): Promise<any> {
-      console.log("email", user.email);
-      const userFromDb = await this.memberService.findOne(user.email);
+    async signIn(member:any, password): Promise<any> {
+      console.log("email", member.email);
+      const userFromDb = await this.memberService.findOne(member.email);
       console.log("userFromDb", userFromDb); // this is null now
       const isPasswordCorrect = await bcrypt.compare(password, userFromDb.password);
       
       if (userFromDb && isPasswordCorrect) {
-          const payload = { username: userFromDb.email, id: userFromDb.id};
+          const payload = { member: userFromDb.email, id: userFromDb.id};
           return {
             access_token: this.jwtService.sign(payload),
           };

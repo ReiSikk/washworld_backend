@@ -4,17 +4,18 @@ import { CreateMemberDto } from 'src/member/dto/create-member.dto';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
+import { Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseGuards(LocalAuthGuard)
+  //@UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Request2() req) {
     console.log("login method called")
-    console.log("req.user", req.user);
-    return this.authService.signIn(req.user, req.body.password);
+    console.log("req.member", req.member);
+    return this.authService.signIn(req.member, req.body.password);
   }
 
   @Post('signup')
