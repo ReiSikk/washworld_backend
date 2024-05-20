@@ -10,12 +10,12 @@ import { Request } from 'express';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  //@UseGuards(LocalAuthGuard)
+  @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Request2() req) {
     console.log("login method called")
-    console.log("req.member", req.member);
-    return this.authService.signIn(req.member, req.body.password);
+    console.log("req.user", req.user);
+    return this.authService.signIn(req.user, req.body.password);
   }
 
   @Post('signup')
