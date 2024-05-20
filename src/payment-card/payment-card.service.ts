@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ConflictException } from '@nestjs/common';
 import { CreatePaymentCardDto } from './dto/create-payment-card.dto';
 import { UpdatePaymentCardDto } from './dto/update-payment-card.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -14,9 +14,15 @@ export class PaymentCardService {
 
 
 
-  create(createPaymentCardDto: CreatePaymentCardDto) {
-    console.log(createPaymentCardDto, "backend called with this data")
-    return this.paymentCardRepository.save(createPaymentCardDto)
+  async create(createPaymentCardDto: CreatePaymentCardDto) {
+    const existingCard = await this.paymentCardRepository.findOne({ where: { cardNumber: createPaymentCardDto.cardNumber } });
+
+    if (existingCard) {
+      throw new ConflictException('Card already added to the system');
+    }
+
+    const newCard = this.paymentCardRepository.create(createPaymentCardDto);
+    return this.paymentCardRepository.save(newCard)
   }
 
   findAll() {

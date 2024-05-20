@@ -22,7 +22,13 @@ export class WashStationService {
 
     const now = new Date();
     const openingTime = parse(station.openingTime, 'HH:mm:ss', new Date());
-    const closingTime = parse(station.closingTime, 'HH:mm:ss', new Date());
+    let closingTime = parse(station.closingTime, 'HH:mm:ss', new Date());
+
+      // If closingTime is "00:00:00", treat it as the end of the day
+  if (station.closingTime === '00:00:00') {
+    closingTime = parse('23:59:59', 'HH:mm:ss', new Date());
+  }
+    
 
     return now >= openingTime && now <= closingTime;
   }
