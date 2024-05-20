@@ -8,6 +8,10 @@ import { dbConfig } from '../data-source';
 import { ServiceModule } from './service/service.module';
 import { MemberModule } from './member/member.module';
 import { AuthModule } from './auth/auth.module';
+import { PaymentCardModule } from './payment-card/payment-card.module';
+import { CarModule } from './car/car.module';
+import { WashStationModule } from './wash-station/wash-station.module';
+import { WashbayModule } from './washbay/washbay.module';
 
 
 @Module({
@@ -19,6 +23,10 @@ import { AuthModule } from './auth/auth.module';
     ServiceModule,
     MemberModule,
     AuthModule,
+    PaymentCardModule,
+    CarModule,
+    WashStationModule,
+    WashbayModule,
   ],
   controllers: [AppController],
   providers: [AppService],

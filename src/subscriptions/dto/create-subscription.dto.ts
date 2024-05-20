@@ -2,21 +2,19 @@ import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
 
 
 export class CreateSubscriptionDto {
-    @IsNotEmpty()
-     id: number;
 
-     @IsNotEmpty()
-     @IsString()
+    @IsString()
+    @IsNotEmpty()
      name: string;
 
 
-     @IsNotEmpty()
      @IsNumber()
+     @IsNotEmpty()
      price_per_month_kr: number;
 
 
-     @IsNotEmpty()
-     @IsString()
+    @IsString()
+    @IsNotEmpty()
      description: string;
 
 
