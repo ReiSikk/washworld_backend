@@ -3,6 +3,7 @@ import { CreateMemberDto } from './dto/create-member.dto';
 import { Member } from './entities/member.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Role } from 'src/auth/enums/role.enum';
 
 @Injectable()
 export class MemberService {
@@ -28,11 +29,11 @@ export class MemberService {
     member.firstName = createMemberDto.firstName;
     member.lastName = createMemberDto.lastName;
     member.phone = createMemberDto.phone;
-    //member.role = Role.Member;
+    member.role = Role.User;
 
-  /*   if(createMemberDto.email.endsWith('@finance.admin')){
+     if(createMemberDto.email.endsWith('@admin.com')){
       member.role = Role.Admin;
-    }  */
+    }  
 
     return this.memberRepository.save(member);
   }
