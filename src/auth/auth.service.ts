@@ -20,7 +20,7 @@ export class AuthService {
       if (userFromDb && isPasswordCorrect) {
           const payload = { member: userFromDb.email, id: userFromDb.id};
           return {
-            access_token: this.jwtService.sign(payload),
+            access_token: this.jwtService.sign(payload, {expiresIn: '60s'}),
           };
         } else {
           throw new UnauthorizedException({success: false, message: 'Invalid credentials' });
