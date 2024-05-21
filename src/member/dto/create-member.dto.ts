@@ -3,9 +3,6 @@ import { IsNotEmpty, IsString, IsNumber, MinLength, IsBoolean, IsDate } from 'cl
 
 export class CreateMemberDto {
     @IsNotEmpty()
-    id: number;
-
-    @IsNotEmpty()
     @IsString()
     email: string;
 
@@ -25,16 +22,5 @@ export class CreateMemberDto {
     @IsNotEmpty()
     @IsString()
     phone: string;
-
-    @IsNotEmpty()
-    @IsBoolean()
-    active: boolean;
-
-    @IsNotEmpty()
-    @IsDate()
-    joinDate: Date;
-
-    @IsNotEmpty()
-    @IsNumber()
-    loyaltyPoints: number;
+ 
 }
