@@ -4,11 +4,15 @@ import { CreateMemberDto } from 'src/member/dto/create-member.dto';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { Request } from 'express';
+import { MemberService } from '../member/member.service';
+import { log } from 'console';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly memberService: MemberService,
+  ) {}
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
@@ -21,6 +25,13 @@ export class AuthController {
   @Post('signup')
   async signUp(@Body() CreateMemberDto: CreateMemberDto) {
     return this.authService.signUp(CreateMemberDto);
+}
+
+@UseGuards(JwtAuthGuard)
+@Get('profile')
+getProfile(@Request2() req) {
+  const memberID =  req.user.id;
+  return memberID;
 }
 
 

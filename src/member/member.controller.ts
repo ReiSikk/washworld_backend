@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { MemberService } from './member.service';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { CreateCarDto } from '../car/dto/create-car.dto';
@@ -12,18 +13,20 @@ export class MemberController {
     return this.memberService.create(createMemberDto);
   }
 
-  @Post(':memberId/add-car')
-  async addCarAndUpdateMember(
-    @Param('memberId') memberId: number,
-    @Body() createCarDto: CreateCarDto,
+  @Post(':id/add-car')
+  async addCarAndUpdateMember(  
+    @Param('id') memberId: number,
+    @Body() body: { createCarDtos: CreateCarDto[] },
   ) {
-    return this.memberService.addCarAndUpdateMember(memberId, createCarDto);
+    console.log("addcar called",body.createCarDtos);
+    return this.memberService.addCarAndUpdateMember(memberId, body.createCarDtos);
   }
 
   @Get()
   findAll() {
     return this.memberService.findAll();
   }
+
 
   @Get(':id')
   findUserById(@Param('id') id: string) {

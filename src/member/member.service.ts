@@ -8,6 +8,7 @@ import { Subscription } from 'src/subscriptions/entities/subscription.entity';
 import { PaymentCard } from 'src/payment-card/entities/payment-card.entity';
 import { CreateCarDto } from 'src/car/dto/create-car.dto';
 import { MemberPaymentCard } from 'src/member-payment-card/entities/member-payment-card.entity';
+import { CarService } from '../car/car.service'; // Import CarService here
 
 @Injectable()
 export class MemberService {
@@ -67,17 +68,11 @@ async findAll(): Promise<Member[]> {
   return this.memberRepository.save(member); //saving the updated user obj. to the db
 } */
 
-async addCarAndUpdateMember(memberId: number, createCarDto: CreateCarDto): Promise<void> {
-  const {
-    licensePlate,
-    country,
-    subscriptionPlanId,
-    paymentCardId,
-  } = createCarDto;
+async addCarAndUpdateMember(memberId: number, createCarDtos: CreateCarDto[]): Promise<void> {
 
   await this.memberRepository.manager.transaction(
     async (transactionalEntityManager) => {
-      const subscriptionPlan = await transactionalEntityManager.findOne(Subscription, { where: { id: subscriptionPlanId }})
+      const subscriptionPlan = await transactionalEntityManager.findOne(Subscription, { where: { id: createCarDtos[0].subscriptionPlanId }})
 
       if (!subscriptionPlan) {
         throw new Error('Subscription plan not found');
@@ -90,23 +85,25 @@ async addCarAndUpdateMember(memberId: number, createCarDto: CreateCarDto): Promi
         throw new Error('Member not found');
       }
 
-      const car = this.carRepository.create({
-        licensePlate: createCarDto.licensePlate,
-        country: createCarDto.country,
-        subscription: subscriptionPlan
+      const cars = createCarDtos.map(createCarDto => {
+        return this.carRepository.create({
+          licensePlate: createCarDto.licensePlate,
+          country: createCarDto.country,
+          member: member,
+          subscription: subscriptionPlan,
+        });
       });
+      console.log(cars, "cars in addCarAndUpdateMember");
 
-      console.log(car, "car in addCarAndUpdateMember");
 
-
-      await transactionalEntityManager.save(car);
+      await transactionalEntityManager.save(cars);
 
       //update member
       member.active = true;
       await transactionalEntityManager.save(member);
 
        // Link the payment card to the member
-       const paymentCard = await transactionalEntityManager.findOne(PaymentCard, { where: {id: paymentCardId} });
+       const paymentCard = await transactionalEntityManager.findOne(PaymentCard, { where: {id: createCarDtos[0].paymentCardId} });
         if (!paymentCard) {
           throw new Error('Payment card not found');
         }

@@ -9,7 +9,7 @@ import { Subscription } from '../subscriptions/entities/subscription.entity';
 import { PaymentCard } from '../payment-card/entities/payment-card.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Member, Car, MemberPaymentCard, Subscription, PaymentCard])],
+  imports: [TypeOrmModule.forFeature([Member, Car, MemberPaymentCard, Subscription, PaymentCard ])],
   controllers: [MemberController],
   exports: [MemberService],
   providers: [MemberService],

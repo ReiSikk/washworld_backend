@@ -15,7 +15,6 @@ licensePlate: string;
 country: string;
 
 @ManyToOne(() => Member, (member) => member.cars, { nullable: true })
-@JoinColumn({ name: 'FK_MemberID' })
 member: Member;
 
 
