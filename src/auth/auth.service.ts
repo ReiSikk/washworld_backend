@@ -18,9 +18,11 @@ export class AuthService {
       const isPasswordCorrect = await bcrypt.compare(password, userFromDb.password);
       
       if (userFromDb && isPasswordCorrect) {
-          const payload = { member: userFromDb.email, id: userFromDb.id};
+          const payload = { member: userFromDb.email, id: userFromDb.id, role: userFromDb.role};
           return {
+            success: true,
             access_token: this.jwtService.sign(payload),
+            role: userFromDb.role,
           };
         } else {
           throw new UnauthorizedException({success: false, message: 'Invalid credentials' });
