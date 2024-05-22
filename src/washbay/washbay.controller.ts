@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Request, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Request, Query, UseGuards } from '@nestjs/common';
 import { WashBayService } from './washbay.service';
 import { CreateWashBayDto } from './dto/create-washbay.dto';
 import { UpdateWashbayDto } from './dto/update-washbay.dto';
+import { AdminGuard } from 'src/auth/guards/admin.guard';
 
 @Controller('washbay')
 export class WashbayController {
@@ -23,6 +24,7 @@ export class WashbayController {
   }
 
   @Patch(':id')
+  @UseGuards(AdminGuard)
   update(@Param('id') id: string, @Body() updateWashbayDto: UpdateWashbayDto) {
     return this.washbayService.update(+id, updateWashbayDto);
   }
