@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { dbConfig } from '../data-source';
+import { dbConfig } from '../data.source';
 import { ServiceModule } from './service/service.module';
 import { MemberModule } from './member/member.module';
 import { AuthModule } from './auth/auth.module';

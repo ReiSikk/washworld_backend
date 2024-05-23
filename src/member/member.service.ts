@@ -79,7 +79,7 @@ async addCarAndUpdateMember(memberId: number, createCarDtos: CreateCarDto[]): Pr
       }
 
       const member = await transactionalEntityManager.findOne(Member, { where: { id: memberId }})
-      console.log(member, "member in addCarAndUpdateMember");
+      //console.log(member, "member in addCarAndUpdateMember");
 
       if (!member) {
         throw new Error('Member not found');
@@ -93,7 +93,7 @@ async addCarAndUpdateMember(memberId: number, createCarDtos: CreateCarDto[]): Pr
           subscription: subscriptionPlan,
         });
       });
-      console.log(cars, "cars in addCarAndUpdateMember");
+      //console.log(cars, "cars in addCarAndUpdateMember");
 
 
       await transactionalEntityManager.save(cars);
@@ -116,7 +116,7 @@ async addCarAndUpdateMember(memberId: number, createCarDtos: CreateCarDto[]): Pr
           isActive: true,
           isDefaultMethod: true,
         });
-      console.log(memberPaymentCard, "memberPaymentCard in addCarAndUpdateMember");
+      //console.log(memberPaymentCard, "memberPaymentCard in addCarAndUpdateMember");
 
 
         await transactionalEntityManager.save(memberPaymentCard);

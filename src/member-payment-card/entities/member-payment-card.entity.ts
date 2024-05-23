@@ -4,11 +4,13 @@ import {
     ManyToOne,
     JoinColumn,
     Column,
+    Unique
   } from 'typeorm';
   import { Member } from '../../member/entities/member.entity';
   import { PaymentCard } from '../../payment-card/entities/payment-card.entity';
   
   @Entity()
+  @Unique(['member', 'paymentCard'])
   export class MemberPaymentCard {
     @PrimaryGeneratedColumn()
     id: number;
