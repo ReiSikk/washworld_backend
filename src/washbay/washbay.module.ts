@@ -4,9 +4,10 @@ import { WashbayController } from './washbay.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { WashBay } from './entities/washbay.entity';
 import { WashStation } from '../wash-station/entities/wash-station.entity';
+import { MemberModule } from '../member/member.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([WashBay, WashStation])],
+  imports: [TypeOrmModule.forFeature([WashBay, WashStation]), MemberModule],
   controllers: [WashbayController],
   providers: [WashBayService],
 })

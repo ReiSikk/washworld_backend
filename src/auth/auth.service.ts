@@ -18,8 +18,10 @@ export class AuthService {
       const isPasswordCorrect = await bcrypt.compare(password, userFromDb.password);
       
       if (userFromDb && isPasswordCorrect) {
-          const payload = { member: userFromDb.email, id: userFromDb.id};
+          const payload = { member: userFromDb.email, id: userFromDb.id, role: userFromDb.role};
           return {
+            success: true,
+            role: userFromDb.role,
             access_token: this.jwtService.sign(payload, {expiresIn: '360s'}),
           };
         } else {

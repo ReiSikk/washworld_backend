@@ -3,6 +3,7 @@ import { CreateMemberDto } from './dto/create-member.dto';
 import { Member } from './entities/member.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Role } from 'src/auth/enums/role.enum';
 import { Car } from 'src/car/entities/car.entity';
 import { Subscription } from 'src/subscriptions/entities/subscription.entity';
 import { PaymentCard } from 'src/payment-card/entities/payment-card.entity';
@@ -40,11 +41,11 @@ export class MemberService {
     member.firstName = createMemberDto.firstName;
     member.lastName = createMemberDto.lastName;
     member.phone = createMemberDto.phone;
-    //member.role = Role.Member;
+    member.role = Role.User;
 
-  /*   if(createMemberDto.email.endsWith('@finance.admin')){
+     if(createMemberDto.email.endsWith('@admin.com')){
       member.role = Role.Admin;
-    }  */
+    }  
 
     return this.memberRepository.save(member);
   }
@@ -61,6 +62,7 @@ export class MemberService {
 async findAll(): Promise<Member[]> {
  return this.memberRepository.find();
 }
+
 
 /* async upgrade(memberId: number) {
   const member = await this.findUserById(memberId); // find user by the userId

@@ -35,11 +35,11 @@ getProfile(@Request2() req) {
 }
 
 
-/* @UseGuards(JwtAuthGuard)
+/*  @UseGuards(JwtAuthGuard)
 @Post('upgrade')
 async upgrade(@Request2() req) {
     return this.authService.upgrade(req.user.id);
-} */
+}  */
   }
 
 
