@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, UseGuards, Request } from '@nestjs/common';
 import { MemberPaymentCardService } from './member-payment-card.service';
 import { CreateMemberPaymentCardDto } from './dto/create-member-payment-card.dto';
 import { UpdateMemberPaymentCardDto } from './dto/update-member-payment-card.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('member-payment-cards')
 export class MemberPaymentCardController {
@@ -16,10 +17,11 @@ export class MemberPaymentCardController {
   findAll() {
     return this.memberPaymentCardService.findAll();
   }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.memberPaymentCardService.findOne(+id);
+  
+  @UseGuards(JwtAuthGuard)
+  @Get('cards')
+  findCardsByMember(@Request() req) {;
+    return this.memberPaymentCardService.findCardsByMember(req.user.id);
   }
 
   @Patch(':id')
