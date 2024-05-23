@@ -1,4 +1,4 @@
-import {IsString,IsNotEmpty,MaxLength,} from 'class-validator';
+import {IsString,IsNotEmpty,MaxLength,IsNumber,} from 'class-validator';
 
 export class CreateCarDto {
     @IsString()
@@ -11,10 +11,12 @@ export class CreateCarDto {
     @MaxLength(55)
     country: string;
 
-
-    //Many to one relationship with Member
-    //member: Member;
-    //Many to one relationship with subscriptionPlan
-    //subscription: Subscription;
+    @IsNumber()
+    @IsNotEmpty()
+    subscriptionPlanId: number;
+  
+    @IsNumber()
+    @IsNotEmpty()
+    paymentCardId: number;
   
 }

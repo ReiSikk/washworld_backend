@@ -21,8 +21,8 @@ export class AuthService {
           const payload = { member: userFromDb.email, id: userFromDb.id, role: userFromDb.role};
           return {
             success: true,
-            access_token: this.jwtService.sign(payload),
             role: userFromDb.role,
+            access_token: this.jwtService.sign(payload, {expiresIn: '360s'}),
           };
         } else {
           throw new UnauthorizedException({success: false, message: 'Invalid credentials' });
