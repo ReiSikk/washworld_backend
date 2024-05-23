@@ -1,5 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from "typeorm";
 import { Subscription } from "../../subscriptions/entities/subscription.entity";
+import { Member } from "../../member/entities/member.entity";
+
 
 @Entity()
 export class Car {
@@ -12,15 +14,13 @@ licensePlate: string;
 @Column()
 country: string;
 
-//Many to one relationship with Member
-/* @ManyToOne(() => Member, (member) => member.cars, { nullable: true })
-@JoinColumn({ name: 'FK_MemberID' })
-member: Member; */
+@ManyToOne(() => Member, (member) => member.cars, { nullable: true })
+member: Member;
 
 
-/* @ManyToOne(() => Subscription,{
+@ManyToOne(() => Subscription,{
     eager: true
 })
-subscription: Subscription; */
+subscription: Subscription;
 
 }

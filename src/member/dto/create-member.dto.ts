@@ -22,5 +22,6 @@ export class CreateMemberDto {
     @IsNotEmpty()
     @IsString()
     phone: string;
+
  
 }
