@@ -24,7 +24,7 @@ export class WashbayController {
     return this.washbayService.findOne(+id);
   }
 
-  @UseGuards(AdminGuard, JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, AdminGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateWashbayDto: UpdateWashbayDto) {
     return this.washbayService.update(+id, updateWashbayDto);
