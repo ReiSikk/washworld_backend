@@ -5,7 +5,7 @@ import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { MemberService } from '../member/member.service';
-import { log } from 'console';
+
 
 @Controller('auth')
 export class AuthController {
@@ -33,6 +33,13 @@ getProfile(@Request2() req) {
   const memberID =  req.user.id;
   return memberID;
 }
+
+/* @UseGuards(JwtAuthGuard)
+@Get('profile/details')
+getMemberDetails(@Request2() req) {
+  const member =  req.user;
+  return member;
+} */
 
 
 /*  @UseGuards(JwtAuthGuard)
