@@ -51,11 +51,5 @@ async findAll(): Promise<Member[]> {
  return this.memberRepository.find();
 }
 
-/* async upgrade(memberId: number) {
-  const member = await this.findUserById(memberId); // find user by the userId
-  member.role = Role.PremiumUser; // changing the role in memory
-  return this.memberRepository.save(member); //saving the updated user obj. to the db
-} */
-
   
 }
