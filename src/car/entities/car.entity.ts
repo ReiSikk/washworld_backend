@@ -14,13 +14,13 @@ licensePlate: string;
 @Column()
 country: string;
 
-@ManyToOne(() => Member, (member) => member.cars, { nullable: true })
+
+
+@ManyToOne(() => Member, (member) => member.cars, { nullable: true, eager: true })  // Ensure eager loading if necessary
+@JoinColumn({ name: 'memberId' })  // Ensure the foreign key column is correctly handled
 member: Member;
 
-
-@ManyToOne(() => Subscription,{
-    eager: true
-})
+@ManyToOne(() => Subscription, { eager: true })
 subscription: Subscription;
 
 }
