@@ -105,18 +105,22 @@ async addCarAndUpdateMember(memberId: number, createCarDtos: CreateCarDto[]): Pr
       await transactionalEntityManager.save(member);
 
        // Link the payment card to the member
-       const paymentCard = await transactionalEntityManager.findOne(PaymentCard, { where: {id: createCarDtos[0].paymentCardId} });
+       const paymentCardId = createCarDtos[0].paymentCardId;
+let paymentCard = await transactionalEntityManager.findOne(PaymentCard, { where: {id: paymentCardId} });
         if (!paymentCard) {
-          throw new Error('Payment card not found');
-        }
-      console.log(paymentCard, "paymentCard in addCarAndUpdateMember");
+          // Create a new payment card if it doesn't exist
+        paymentCard = this.paymentCardRepository.create({
+        id: paymentCardId,
+        });
+        await transactionalEntityManager.save(paymentCard);
+      }
 
 
         const memberPaymentCard = this.memberPaymentCardRepository.create({
           member,
           paymentCard,
           isActive: true,
-          isDefaultMethod: true,
+          isDefaultMethod: false,
         });
       //console.log(memberPaymentCard, "memberPaymentCard in addCarAndUpdateMember");
 

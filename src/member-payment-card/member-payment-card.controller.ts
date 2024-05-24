@@ -24,12 +24,14 @@ export class MemberPaymentCardController {
     return this.memberPaymentCardService.findCardsByMember(req.user.id);
   }
 
+  
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateMemberPaymentCardDto: UpdateMemberPaymentCardDto,
   ) {
-    return this.memberPaymentCardService.update(id, updateMemberPaymentCardDto);
+    return this.memberPaymentCardService.update(+id, updateMemberPaymentCardDto);
   }
 
   @Delete(':id')
