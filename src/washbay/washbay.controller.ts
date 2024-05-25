@@ -2,8 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Request, Query, UseG
 import { WashBayService } from './washbay.service';
 import { CreateWashBayDto } from './dto/create-washbay.dto';
 import { UpdateWashbayDto } from './dto/update-washbay.dto';
-import { AdminGuard } from 'src/auth/guards/admin.guard';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { AdminGuard } from '../auth/guards/admin.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
 
 @Controller('washbay')
 export class WashbayController {

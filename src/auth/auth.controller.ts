@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Request as Request2 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateMemberDto } from 'src/member/dto/create-member.dto';
+import { CreateMemberDto } from '../member/dto/create-member.dto';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';

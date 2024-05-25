@@ -1,5 +1,5 @@
 
-import { Role } from "src/auth/enums/role.enum";
+import { Role } from "../../auth/enums/role.enum";
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { Car } from "../../car/entities/car.entity";
 import { MemberPaymentCard } from "../../member-payment-card/entities/member-payment-card.entity";

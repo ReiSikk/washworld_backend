@@ -3,12 +3,12 @@ import { CreateMemberDto } from './dto/create-member.dto';
 import { Member } from './entities/member.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Role } from 'src/auth/enums/role.enum';
-import { Car } from 'src/car/entities/car.entity';
-import { Subscription } from 'src/subscriptions/entities/subscription.entity';
-import { PaymentCard } from 'src/payment-card/entities/payment-card.entity';
+import { Role } from '../auth/enums/role.enum';
+import { Car } from '../car/entities/car.entity';
+import { Subscription } from '../subscriptions/entities/subscription.entity';
+import { PaymentCard } from '../payment-card/entities/payment-card.entity';
 import { CreateCarDto } from 'src/car/dto/create-car.dto';
-import { MemberPaymentCard } from 'src/member-payment-card/entities/member-payment-card.entity';
+import { MemberPaymentCard } from '../member-payment-card/entities/member-payment-card.entity';
 import { CarService } from '../car/car.service'; // Import CarService here
 
 @Injectable()
