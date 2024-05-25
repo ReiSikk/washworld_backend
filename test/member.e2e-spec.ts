@@ -28,6 +28,7 @@ describe('UserController (e2e)', () => {
       
       connection = moduleFixture.get(DataSource)
       app = moduleFixture.createNestApplication();
+      app.useGlobalPipes(new ValidationPipe());
       await app.init();
     });
 
@@ -36,9 +37,9 @@ describe('UserController (e2e)', () => {
         let createdMemberId: number;
         it('should create a new member', async () => {
     
-            const validMember = {
-                email: 'user@user2.com',
-                password: 'testpassword',
+            const validMember: CreateMemberDto = {
+                email: 'user@user22.com',
+                password: 'testtesttest',
                 firstName: 'Name',
                 lastName: 'Lastname',
                 phone: '12345',
@@ -61,25 +62,60 @@ describe('UserController (e2e)', () => {
           }
         })
 
+      })
 
-       /*  it('should return error message when passed an invalid member', async () => {
-            const invalidMember: Partial<CreateMemberDto> = {
-                email: 'user@user.com',
-                password: 'bla',
-                firstName: 'name',
-                lastName: 'lastname',
-                phone: '12345',
-            };
+
+      describe('Sign up flow - invalid data', () => {
+        //let createdMemberId: number;
+        it('it should return error message when passed an invalid member', async () => {
     
+          const invalidMember: Partial<CreateMemberDto> = {
+            email: 'u@u33.com',
+            password: 'blabla',
+            firstName: 'name',
+            lastName: 'lastname',
+            phone: '12345',
+        };
+    
+            const {body} = await request(app.getHttpServer())
+            .post('/auth/signup')
+            .send(invalidMember)
+            .expect(400)
+    
+            expect(body.message[0]).toEqual('Password must be at least 8 characters long');
+
+        })
+
+      })
+
+      describe('Log in flow', () => {
+        it('it should log-in the user', async () => {
+          const createdUser = await memberService.create({
+            email: 'test@email.com',
+            password: 'testpassword',
+            firstName: 'Mikkel',
+            lastName: 'Jacobsen',
+            phone: '123456789',
+          });
+
+          const login = { email: 'test@email.com', password: 'testpassword'}
+            
           const {body} = await request(app.getHttpServer())
-          .post('/member')
-          .send(invalidMember)
-          .expect(400)
-    
-          expect(body.message[0]).toEqual('Password must be at least 8 characters long');
-        }) */
+                            .post('/auth/login')
+                            .send(login)
+                            .expect(201)
+
+                            
+          expect(body.access_token).toBeDefined()
         
-      }) 
+          
+
+        })
+
+      })
+      
+      
+
       afterAll(() => {
         app.close();
       });
