@@ -34,12 +34,11 @@ getProfile(@Request2() req) {
   return memberID;
 }
 
-/* @UseGuards(JwtAuthGuard)
-@Get('profile/details')
-getMemberDetails(@Request2() req) {
-  const member =  req.user;
-  return member;
-} */
+@UseGuards(JwtAuthGuard)
+@Get('check-token')
+checkToken() {
+  return true;
+}
 
 
 /*  @UseGuards(JwtAuthGuard)

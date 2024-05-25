@@ -22,7 +22,7 @@ export class AuthService {
           return {
             success: true,
             role: userFromDb.role,
-            access_token: this.jwtService.sign(payload, {expiresIn: '360s'}),
+            access_token: this.jwtService.sign(payload, {expiresIn: '60s'}),
           };
         } else {
           throw new UnauthorizedException({success: false, message: 'Invalid credentials' });
