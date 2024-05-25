@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { MemberPaymentCard } from './entities/member-payment-card.entity';
 import { CreateMemberPaymentCardDto } from './dto/create-member-payment-card.dto';
 import { UpdateMemberPaymentCardDto } from './dto/update-member-payment-card.dto';
-import { Member } from 'src/member/entities/member.entity';
+import { Member } from '../member/entities/member.entity';
 
 @Injectable()
 export class MemberPaymentCardService {

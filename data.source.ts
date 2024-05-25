@@ -1,5 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { DataSource, DataSourceOptions } from 'typeorm';
+
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -17,7 +18,7 @@ export const dbConfig: TypeOrmModuleOptions = {
     database: process.env.DB_NAME,
     //database: 'washWorld',
     synchronize: true, // automatically generate a database based on my entities. Delete my data if needed.
-    entities: ['dist/**/*.entity{.ts,.js}'],
+    autoLoadEntities: true,
     migrations: ['dist/src/migrations/*{.ts,.js}'],
     };
 

@@ -15,7 +15,7 @@ describe('UserController (e2e)', () => {
     let memberService: MemberService;
     let authService: AuthService;
     let memberRepository: Repository<Member>;
-    //let connection: DataSource;
+    let connection: DataSource;
   
     beforeEach(async () => {
       const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -26,17 +26,18 @@ describe('UserController (e2e)', () => {
       authService = moduleFixture.get(AuthService);
       memberRepository = moduleFixture.get(getRepositoryToken(Member))
       
-      //connection = moduleFixture.get(DataSource)
+      connection = moduleFixture.get(DataSource)
       app = moduleFixture.createNestApplication();
       await app.init();
     });
 
 
        describe('Sign up flow', () => {
+        let createdMemberId: number;
         it('should create a new member', async () => {
     
             const validMember = {
-                email: 'user@user.com',
+                email: 'user@user2.com',
                 password: 'testpassword',
                 firstName: 'Name',
                 lastName: 'Lastname',
@@ -48,9 +49,16 @@ describe('UserController (e2e)', () => {
             .send(validMember)
             .expect(201)
     
-            console.log("saved member", body);
             expect(body.email).toEqual(validMember.email)
             expect(body.id).toBeDefined()
+            createdMemberId = body.id;
+        })
+
+
+        afterEach(async () => {
+          if (createdMemberId) {
+              await memberRepository.delete(createdMemberId);
+          }
         })
 
 
