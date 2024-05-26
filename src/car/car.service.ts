@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateCarDto } from './dto/create-car.dto';
 import { UpdateCarDto } from './dto/update-car.dto';
@@ -14,7 +14,7 @@ export class CarService {
 
 
 
-  create(createCarDto: CreateCarDto) {
+  async create(createCarDto: CreateCarDto) {
     return this.carRepository.save(createCarDto)
   }
 
@@ -24,6 +24,21 @@ export class CarService {
 
   findOne(id: number) {
     return this.carRepository.findOneBy({id})
+  }
+
+  async findCarsByMember(memberId: number): Promise<Car[]> {
+    try {
+      console.log('Querying for member cars with memberId:', memberId); // Log the memberId for debugging
+      const memberCars = await this.carRepository.find({
+        where: { member: { id: memberId } },  // Ensure member relation is used correctly
+        relations: ['subscription'], // Ensure the subscription relation is loaded
+      });
+      console.log('Fetched member cars:', memberCars); // Log the result for debugging
+      return memberCars;
+    } catch (error) {
+      console.error('Error fetching member cars:', error);
+      throw new InternalServerErrorException('Failed to fetch member cars');
+    }
   }
 
   update(id: number, updateCarDto: UpdateCarDto) {

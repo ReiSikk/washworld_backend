@@ -1,7 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Request, BadRequestException } from '@nestjs/common';
 import { CarService } from './car.service';
 import { CreateCarDto } from './dto/create-car.dto';
 import { UpdateCarDto } from './dto/update-car.dto';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('car')
 export class CarController {
@@ -11,16 +13,27 @@ export class CarController {
   create(@Body() createCarDto: CreateCarDto) {
     return this.carService.create(createCarDto);
   }
-
-  @Get()
-  findAll() {
-    return this.carService.findAll();
+  @UseGuards(JwtAuthGuard)
+  @Get('member')
+  findAll(@Request() req) {
+    return this.carService.findCarsByMember(req.user.id);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.carService.findOne(+id);
   }
+
+  /* @UseGuards(JwtAuthGuard) */
+ /*  @Get('member-cars')
+  findAll(){
+    console.log("findCarsByMember in car controller called");
+  
+ 
+    return this.carService.findCarsByMember();
+  } */
+
+
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCarDto: UpdateCarDto) {

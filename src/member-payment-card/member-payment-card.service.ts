@@ -26,7 +26,12 @@ export class MemberPaymentCardService {
     const memberPaymentCards = await this.memberPaymentCardRepository.find({
       where: { member: { id: memberId } }
     });
-    const cardsToDisplay = memberPaymentCards.map(memberPaymentCard => memberPaymentCard.paymentCard);  
+    //const cardsToDisplay = memberPaymentCards.map(memberPaymentCard => memberPaymentCard.paymentCard);  
+    const cardsToDisplay = memberPaymentCards.map(memberPaymentCard => ({
+      ...memberPaymentCard.paymentCard,
+      isDefault: memberPaymentCard.isDefaultMethod,
+      isActive: memberPaymentCard.isActive,
+    }));
 
     if (memberPaymentCards.length === 0) {
       throw new NotFoundException(`MemberPaymentCard for member ID ${memberId} not found`);
@@ -41,8 +46,18 @@ export class MemberPaymentCardService {
     })
   } */
 
-  update(id: number, updateMemberPaymentCardDto: UpdateMemberPaymentCardDto) {
-    return this.memberPaymentCardRepository.update(id, updateMemberPaymentCardDto)
+   async update(paymentCardId: number, updateMemberPaymentCardDto: UpdateMemberPaymentCardDto) {
+    console.log('updated card nr', paymentCardId)
+  
+    const memberPaymentCard = await this.memberPaymentCardRepository.findOne({
+      where: { paymentCard: { id: paymentCardId } }
+    });
+  
+    if (!memberPaymentCard) {
+      throw new NotFoundException('MemberPaymentCard not found');
+    }
+  
+    return this.memberPaymentCardRepository.update(memberPaymentCard.id, updateMemberPaymentCardDto);
   }
 
   async remove(id: number) {
