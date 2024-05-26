@@ -1,5 +1,4 @@
 import { ExecutionContext, Injectable, CanActivate, Inject } from "@nestjs/common";
-import { Member } from "src/member/entities/member.entity";
 import { Role } from "../enums/role.enum";
 import { MemberService } from "../../member/member.service";
 

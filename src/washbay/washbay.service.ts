@@ -4,7 +4,7 @@ import { UpdateWashbayDto } from './dto/update-washbay.dto';
 import { WashBay } from './entities/washbay.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { WashStation } from 'src/wash-station/entities/wash-station.entity';
+import { WashStation } from '../wash-station/entities/wash-station.entity';
 
 
 @Injectable()
