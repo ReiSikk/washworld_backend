@@ -11,6 +11,11 @@ import { CreateCarDto } from 'src/car/dto/create-car.dto';
 import { MemberPaymentCard } from 'src/member-payment-card/entities/member-payment-card.entity';
 import { CarService } from '../car/car.service'; // Import CarService here
 
+type AddCarAndUpdateMemberResponse = { 
+  success: boolean; 
+  message: string 
+};
+
 @Injectable()
 export class MemberService {
 
@@ -27,6 +32,8 @@ export class MemberService {
     @InjectRepository(MemberPaymentCard)
     private memberPaymentCardRepository: Repository<MemberPaymentCard>,
   ) {}
+
+  
 
   async create(createMemberDto: CreateMemberDto): Promise<Member> {
     const existingUser = await this.memberRepository.findOne({ where: { email: createMemberDto.email } });
@@ -70,65 +77,72 @@ async findAll(): Promise<Member[]> {
   return this.memberRepository.save(member); //saving the updated user obj. to the db
 } */
 
-async addCarAndUpdateMember(memberId: number, createCarDtos: CreateCarDto[]): Promise<void> {
 
-  await this.memberRepository.manager.transaction(
-    async (transactionalEntityManager) => {
-      const subscriptionPlan = await transactionalEntityManager.findOne(Subscription, { where: { id: createCarDtos[0].subscriptionPlanId }})
+async addCarAndUpdateMember(memberId: number, createCarDtos: CreateCarDto[]): Promise<AddCarAndUpdateMemberResponse> {
+  try {
+    await this.memberRepository.manager.transaction(
+      async (transactionalEntityManager) => {
+        const subscriptionPlan = await transactionalEntityManager.findOne(Subscription, { where: { id: createCarDtos[0].subscriptionPlanId }});
+        if (!subscriptionPlan) {
+          throw new Error('Subscription plan not found');
+        }
 
-      if (!subscriptionPlan) {
-        throw new Error('Subscription plan not found');
-      }
+        const member = await transactionalEntityManager.findOne(Member, { where: { id: memberId }});
+        if (!member) {
+          throw new Error('Member not found');
+        }
 
-      const member = await transactionalEntityManager.findOne(Member, { where: { id: memberId }})
-      //console.log(member, "member in addCarAndUpdateMember");
-
-      if (!member) {
-        throw new Error('Member not found');
-      }
-
-      const cars = createCarDtos.map(createCarDto => {
-        return this.carRepository.create({
-          licensePlate: createCarDto.licensePlate,
-          country: createCarDto.country,
-          member: member,
-          subscription: subscriptionPlan,
+        const cars = createCarDtos.map(createCarDto => {
+          return this.carRepository.create({
+            licensePlate: createCarDto.licensePlate,
+            country: createCarDto.country,
+            member: member,
+            subscription: subscriptionPlan,
+          });
         });
-      });
-      //console.log(cars, "cars in addCarAndUpdateMember");
 
+        await transactionalEntityManager.save(cars);
 
-      await transactionalEntityManager.save(cars);
+        // Update member
+        member.active = true;
+        await transactionalEntityManager.save(member);
 
-      //update member
-      member.active = true;
-      await transactionalEntityManager.save(member);
-
-       // Link the payment card to the member
-       const paymentCardId = createCarDtos[0].paymentCardId;
-let paymentCard = await transactionalEntityManager.findOne(PaymentCard, { where: {id: paymentCardId} });
+        // Link the payment card to the member
+        const paymentCardId = createCarDtos[0].paymentCardId;
+        let paymentCard = await transactionalEntityManager.findOne(PaymentCard, { where: { id: paymentCardId } });
         if (!paymentCard) {
           // Create a new payment card if it doesn't exist
-        paymentCard = this.paymentCardRepository.create({
-        id: paymentCardId,
-        });
-        await transactionalEntityManager.save(paymentCard);
-      }
+          paymentCard = this.paymentCardRepository.create({ id: paymentCardId });
+          await transactionalEntityManager.save(paymentCard);
+        }
 
-
-        const memberPaymentCard = this.memberPaymentCardRepository.create({
-          member,
-          paymentCard,
-          isActive: true,
-          isDefaultMethod: false,
-        });
-      //console.log(memberPaymentCard, "memberPaymentCard in addCarAndUpdateMember");
-
+        // Check if memberPaymentCard entry exists
+        let memberPaymentCard = await transactionalEntityManager.findOne(MemberPaymentCard, { where: { member: { id: memberId }, paymentCard: { id: paymentCardId } } });
+        if (!memberPaymentCard) {
+          // Create a new entry if it doesn't exist
+          memberPaymentCard = this.memberPaymentCardRepository.create({
+            member,
+            paymentCard,
+            isActive: true,
+            isDefaultMethod: false,
+          });
+        } else {
+          // Update the existing entry if necessary
+          memberPaymentCard.isActive = true;
+          memberPaymentCard.isDefaultMethod = false;
+        }
 
         await transactionalEntityManager.save(memberPaymentCard);
-    },
-    
-  );
+      }
+    );
+
+    // Return a success response
+    return { success: true, message: 'Car added and member updated successfully' };
+  } catch (error) {
+    console.error('Error adding car and updating member:', error);
+    return { success: false, message: 'Failed to add car and update member' };
+  }
 }
+
 
 }
