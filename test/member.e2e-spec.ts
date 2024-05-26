@@ -89,16 +89,19 @@ describe('UserController (e2e)', () => {
       })
 
       describe('Log in flow', () => {
+        let createdMemberId: number;
         it('it should log-in the user', async () => {
-          const createdUser = await memberService.create({
-            email: 'test@email.com',
+          const createdUser = await authService.signUp({
+            email: 'test4@email.com',
             password: 'testpassword',
             firstName: 'Mikkel',
             lastName: 'Jacobsen',
             phone: '123456789',
           });
 
-          const login = { email: 'test@email.com', password: 'testpassword'}
+          createdMemberId = createdUser.id;
+
+          const login = { email: 'test4@email.com', password: 'testpassword'}
             
           const {body} = await request(app.getHttpServer())
                             .post('/auth/login')
@@ -107,13 +110,14 @@ describe('UserController (e2e)', () => {
 
                             
           expect(body.access_token).toBeDefined()
-        
-          
-
         })
 
+        afterEach(async () => {
+          if (createdMemberId) {
+              await memberRepository.delete(createdMemberId);
+          }
+        })
       })
-      
       
 
       afterAll(() => {
