@@ -4,6 +4,8 @@ import { CreateCarDto } from './dto/create-car.dto';
 import { UpdateCarDto } from './dto/update-car.dto';
 import { Car } from './entities/car.entity';
 import { Repository } from 'typeorm';
+import { ConflictException } from '@nestjs/common';
+
 
 @Injectable()
 export class CarService {
@@ -14,8 +16,16 @@ export class CarService {
 
 
 
+
   async create(createCarDto: CreateCarDto) {
-    return this.carRepository.save(createCarDto)
+    const existingCar = await this.carRepository.findOne({ where: { licensePlate: createCarDto.licensePlate } });
+
+    if (existingCar) {
+      throw new ConflictException('Car already added to the system');
+    }
+
+    const newCar = this.carRepository.create(createCarDto);
+    return this.carRepository.save(newCar)
   }
 
   findAll() {

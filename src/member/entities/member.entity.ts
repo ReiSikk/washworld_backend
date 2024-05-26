@@ -46,5 +46,4 @@ export class Member {
   
     @OneToMany(() => MemberPaymentCard, (mpc) => mpc.member)
     memberPaymentCards: MemberPaymentCard[];
-
 }

@@ -3,6 +3,8 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { WashBayService } from './washbay.service';
 import { WashBay } from './entities/washbay.entity';
+import { WashStationService } from '../wash-station/wash-station.service';
+import { WashStation } from '../wash-station/entities/wash-station.entity';
 
 describe('WashBayService', () => {
   let service: WashBayService;
@@ -12,8 +14,13 @@ describe('WashBayService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         WashBayService,
+        WashStationService,
         {
           provide: getRepositoryToken(WashBay),
+          useClass: Repository,
+        },
+        {
+          provide: getRepositoryToken(WashStation),
           useClass: Repository,
         },
       ],
