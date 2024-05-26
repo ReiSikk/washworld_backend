@@ -9,6 +9,13 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
 export class WashbayController {
   constructor(private readonly washbayService: WashBayService) {}
 
+
+  @UseGuards(JwtAuthGuard, AdminGuard)
+  @Patch("test-endpoint")
+  testProtectedEndpoint() {
+    return { message: "Access granted" }
+  }
+
   @Post()
   create(@Body() CreateWashBayDto: CreateWashBayDto) {
     return this.washbayService.create(CreateWashBayDto);

@@ -9,13 +9,16 @@ import { DataSource, Repository } from 'typeorm'
 import { Member } from '../src/member/entities/member.entity';
 import { MemberService } from '../src/member/member.service';
 import { AuthService } from '../src/auth/auth.service';
+import { WashBayService } from 'src/washbay/washbay.service';
 
 describe('UserController (e2e)', () => {
     let app: INestApplication;
     let memberService: MemberService;
     let authService: AuthService;
+    let WashBayService: WashBayService;
     let memberRepository: Repository<Member>;
     let connection: DataSource;
+    let accessToken: string;
   
     beforeEach(async () => {
       const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -110,6 +113,7 @@ describe('UserController (e2e)', () => {
 
                             
           expect(body.access_token).toBeDefined()
+          accessToken = body.access_token
         })
 
         afterEach(async () => {
@@ -118,7 +122,6 @@ describe('UserController (e2e)', () => {
           }
         })
       })
-      
 
       afterAll(() => {
         app.close();
