@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsNumber, MinLength, IsBoolean, IsDate } from 'class-validator';
+import { IsNotEmpty, IsString, IsNumber, IsBoolean, IsDate } from 'class-validator';
 
 
 export class SignInDto {

@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { MemberService } from '../member/member.service';
 import { JwtService } from '@nestjs/jwt';
-import { CarService } from '../car/car.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Member } from '../member/entities/member.entity';

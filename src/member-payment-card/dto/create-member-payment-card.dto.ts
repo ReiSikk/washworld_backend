@@ -1,4 +1,4 @@
-import { IsInt, IsBoolean, IsOptional, IsNumber } from 'class-validator';
+import { IsBoolean, IsOptional, IsNumber } from 'class-validator';
 
 export class CreateMemberPaymentCardDto {
   @IsNumber()
