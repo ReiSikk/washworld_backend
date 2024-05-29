@@ -1,11 +1,7 @@
-const unusedImports = require("eslint-plugin-unused-imports");
 
 
 
 module.exports = {
-  plugins: {
-    "unused-imports": unusedImports,
-},
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: 'tsconfig.json',
