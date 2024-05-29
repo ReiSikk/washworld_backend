@@ -1,4 +1,11 @@
+import unusedImports from "eslint-plugin-unused-imports";
+
+
+
 module.exports = {
+  plugins: {
+    "unused-imports": unusedImports,
+},
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: 'tsconfig.json',
@@ -23,5 +30,15 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': ['error'],
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+        "warn",
+        {
+            "vars": "all",
+            "varsIgnorePattern": "^_",
+            "args": "after-used",
+            "argsIgnorePattern": "^_",
+        },
+    ]
   },
 };
