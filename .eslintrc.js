@@ -1,4 +1,4 @@
-import unusedImports from "eslint-plugin-unused-imports";
+const unusedImports = require("eslint-plugin-unused-imports");
 
 
 
