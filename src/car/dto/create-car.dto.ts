@@ -14,9 +14,9 @@ export class CreateCarDto {
     @IsNumber()
     @IsNotEmpty()
     subscriptionPlanId: number;
-  
+
     @IsNumber()
     @IsNotEmpty()
-    paymentCardId: number;
+    memberId: number;
   
 }

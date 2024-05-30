@@ -42,19 +42,19 @@ describe('CarController (e2e)', () => {
       .expect(201);
     subscriptionPlanId = subscriptionPlan.body.id;
 
-    const validMember: CreateMemberDto = {
-        email: 'user@saarem.ee',
-        password: 'testtesttest',
-        firstName: 'Name',
-        lastName: 'Lastname',
-        phone: '12345',
+   /*  const validMember: CreateMemberDto = {
+        email: 'user@exam.lv',
+        password: 'testin4321',
+        firstName: 'Pasha',
+        lastName: 'Jegorov',
+        phone: '625241',
     };
 
     const member = await request(app.getHttpServer())
       .post('/member')
       .send(validMember)
       .expect(201);
-    memberId = member.body.id;
+    memberId = member.body.id; */
   });
 
   afterAll(async () => {
@@ -69,10 +69,10 @@ describe('CarController (e2e)', () => {
 
   it('should create a new car entry in the db', async () => {
     const createdCar: CreateCarDto = {
-      licensePlate: 'UU777',
+      licensePlate: 'EXAM123',
       country: 'Denmark',
-      subscriptionPlanId: 2,
-      paymentCardId: 1,
+      subscriptionPlanId: 1,
+      memberId: 3,
     };
 
     const { body } = await request(app.getHttpServer())
@@ -85,13 +85,13 @@ describe('CarController (e2e)', () => {
     createdCarId = body.id;
   });
 
-/*   describe('Trying to add duplicate car', () => {
+  describe('Trying to add duplicate car', () => {
     it('should not create a new car entry in the db', async () => {
       const createdCar: CreateCarDto = {
-        licensePlate: 'ÖÖKÜLL',
+        licensePlate: 'REIREI',
         country: 'Estonia',
-        paymentCardId: 5,
-        subscriptionPlanId: 1,
+        subscriptionPlanId: 3,
+        memberId: 5,
       };
 
 
@@ -102,5 +102,5 @@ describe('CarController (e2e)', () => {
 
       expect(body.message).toEqual('Car already added to the system');
     });
-  }); */
+  });
 });

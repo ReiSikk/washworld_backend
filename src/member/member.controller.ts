@@ -17,9 +17,10 @@ export class MemberController {
   async addCarAndUpdateMember(  
     @Param('id') memberId: number,
     @Body() body: { createCarDtos: CreateCarDto[] },
+    @Param('id') paymentCardId: string,
   ) {
     console.log("addcar called",body.createCarDtos);
-    return this.memberService.addCarAndUpdateMember(memberId, body.createCarDtos);
+    return this.memberService.addCarAndUpdateMember(memberId, body.createCarDtos, paymentCardId);
   }
 
   @Get()

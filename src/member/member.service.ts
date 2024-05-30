@@ -78,7 +78,7 @@ async findAll(): Promise<Member[]> {
 } */
 
 
-async addCarAndUpdateMember(memberId: number, createCarDtos: CreateCarDto[]): Promise<AddCarAndUpdateMemberResponse> {
+async addCarAndUpdateMember(memberId: number, createCarDtos: CreateCarDto[], paymentCardId: string): Promise<AddCarAndUpdateMemberResponse> {
   try {
     await this.memberRepository.manager.transaction(
       async (transactionalEntityManager) => {
@@ -107,17 +107,18 @@ async addCarAndUpdateMember(memberId: number, createCarDtos: CreateCarDto[]): Pr
         member.active = true;
         await transactionalEntityManager.save(member);
 
-        // Link the payment card to the member
-        const paymentCardId = createCarDtos[0].paymentCardId;
-        let paymentCard = await transactionalEntityManager.findOne(PaymentCard, { where: { id: paymentCardId } });
+        // Check if payment card exists
+        //const paymentCardId = createCarDtos[0].paymentCardId;
+        let paymentCardFromDb = parseInt(paymentCardId);
+        let paymentCard = await transactionalEntityManager.findOne(PaymentCard, { where: { id: paymentCardFromDb } });
         if (!paymentCard) {
           // Create a new payment card if it doesn't exist
-          paymentCard = this.paymentCardRepository.create({ id: paymentCardId });
+          paymentCard = this.paymentCardRepository.create({ id: paymentCardFromDb });
           await transactionalEntityManager.save(paymentCard);
         }
 
         // Check if memberPaymentCard entry exists
-        let memberPaymentCard = await transactionalEntityManager.findOne(MemberPaymentCard, { where: { member: { id: memberId }, paymentCard: { id: paymentCardId } } });
+        let memberPaymentCard = await transactionalEntityManager.findOne(MemberPaymentCard, { where: { member: { id: memberId }, paymentCard: { id: paymentCardFromDb } } });
         if (!memberPaymentCard) {
           // Create a new entry if it doesn't exist
           memberPaymentCard = this.memberPaymentCardRepository.create({
