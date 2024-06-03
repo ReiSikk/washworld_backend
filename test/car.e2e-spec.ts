@@ -7,8 +7,6 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { Car } from '../src/car/entities/car.entity';
 import { CreateCarDto } from '../src/car/dto/create-car.dto';
-import { CreateMemberDto } from 'src/member/dto/create-member.dto';
-import { CreateSubscriptionDto } from 'src/subscriptions/dto/create-subscription.dto';
 
 describe('CarController (e2e)', () => {
   let app: INestApplication;
@@ -28,33 +26,6 @@ describe('CarController (e2e)', () => {
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(new ValidationPipe());
     await app.init();
-
-    // Create a subscription plan and a member
-    const createdSubscription: CreateSubscriptionDto = {
-      name: 'Test 89',
-      price_per_month_kr: 1000,
-      description: "Some service for test2",
-    };
-
-    const subscriptionPlan = await request(app.getHttpServer())
-      .post('/subscription')
-      .send(createdSubscription)
-      .expect(201);
-    subscriptionPlanId = subscriptionPlan.body.id;
-
-   /*  const validMember: CreateMemberDto = {
-        email: 'user@exam.lv',
-        password: 'testin4321',
-        firstName: 'Pasha',
-        lastName: 'Jegorov',
-        phone: '625241',
-    };
-
-    const member = await request(app.getHttpServer())
-      .post('/member')
-      .send(validMember)
-      .expect(201);
-    memberId = member.body.id; */
   });
 
   afterAll(async () => {

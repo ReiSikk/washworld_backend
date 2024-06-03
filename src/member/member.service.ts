@@ -1,4 +1,4 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { Member } from './entities/member.entity';
 import { Repository } from 'typeorm';
@@ -78,7 +78,10 @@ async findAll(): Promise<Member[]> {
 } */
 
 
-async addCarAndUpdateMember(memberId: number, createCarDtos: CreateCarDto[], paymentCardId: string): Promise<AddCarAndUpdateMemberResponse> {
+async addCarAndUpdateMember(memberId: number, createCarDtos: CreateCarDto[], paymentMethodID: string): Promise<AddCarAndUpdateMemberResponse> {
+  console.log('MemberId in addCarAndUpdateMember', memberId);
+  console.log('createcarDtos in addCarAndUpdateMember', createCarDtos);
+  console.log('paymentCardId in addCarAndUpdateMember', paymentMethodID);
   try {
     await this.memberRepository.manager.transaction(
       async (transactionalEntityManager) => {
@@ -109,16 +112,25 @@ async addCarAndUpdateMember(memberId: number, createCarDtos: CreateCarDto[], pay
 
         // Check if payment card exists
         //const paymentCardId = createCarDtos[0].paymentCardId;
-        let paymentCardFromDb = parseInt(paymentCardId);
+      /*   let paymentCardFromDb = parseInt(paymentCardId);
         let paymentCard = await transactionalEntityManager.findOne(PaymentCard, { where: { id: paymentCardFromDb } });
         if (!paymentCard) {
           // Create a new payment card if it doesn't exist
           paymentCard = this.paymentCardRepository.create({ id: paymentCardFromDb });
           await transactionalEntityManager.save(paymentCard);
-        }
+        } */
+
+        const paymentCardIdNumber = parseInt(paymentMethodID);
+        console.log('paymentCardIdNumber', paymentCardIdNumber);
+
+        const paymentCard = await transactionalEntityManager.findOne(PaymentCard, { where: { id: paymentCardIdNumber } });
+      if (!paymentCard) {
+        throw new NotFoundException(`Payment card with ID ${paymentMethodID} not found`);
+      }
+        console.log('paymentCard in transaction', paymentCard);
 
         // Check if memberPaymentCard entry exists
-        let memberPaymentCard = await transactionalEntityManager.findOne(MemberPaymentCard, { where: { member: { id: memberId }, paymentCard: { id: paymentCardFromDb } } });
+        let memberPaymentCard = await transactionalEntityManager.findOne(MemberPaymentCard, { where: { member: { id: memberId }, paymentCard: { id: paymentCardIdNumber } } });
         if (!memberPaymentCard) {
           // Create a new entry if it doesn't exist
           memberPaymentCard = this.memberPaymentCardRepository.create({
