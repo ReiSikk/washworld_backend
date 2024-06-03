@@ -32,8 +32,8 @@ describe('CardController (e2e)', () => {
         it('should create a new card entry in the db', async () => {
 
           const createdCard : CreatePaymentCardDto = {
-            nameOnCard: 'George Brown',
-            cardNumber: '6782 1234 1234 1234',
+            nameOnCard: 'Markus Ojasaar',
+            cardNumber: '8451 5555 1234 7777',
             expirationDate: new Date(),
             cvv: '123',
         };
@@ -52,22 +52,17 @@ describe('CardController (e2e)', () => {
                             
         })
 
-        afterEach(async () => {
-            if(createdCardId) {
-                await cardRepository.delete(createdCardId);
-            }
-        })
-
       })
        describe('Trying to add duplicate card', () => {
         it('should not create a new card entry in the db', async () => {
 
           const createdCard : CreatePaymentCardDto = {
-            nameOnCard: 'Markus Brown',
-            cardNumber: '1234 1234 1234 1234',
+            nameOnCard: 'Markus Ojasaar',
+            cardNumber: '8451 5555 1234 7777',
             expirationDate: new Date(),
             cvv: '123',
         };
+
             
           const { body } = await request(app.getHttpServer())
                               .post('/paymentcard')
@@ -77,6 +72,12 @@ describe('CardController (e2e)', () => {
                               expect(body.message).toEqual('Card already added to the system');
                             
         })
+
+        afterEach(async () => {
+          if(createdCardId) {
+              await cardRepository.delete(createdCardId);
+          }
+      })
       })
 
 

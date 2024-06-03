@@ -32,12 +32,6 @@ describe('CarController (e2e)', () => {
     await app.close();
   });
 
-  afterEach(async () => {
-    if (createdCarId) {
-      await carRepository.delete(createdCarId);
-    }
-  });
-
   it('should create a new car entry in the db', async () => {
     const createdCar: CreateCarDto = {
       licensePlate: 'EXAM123',
@@ -59,19 +53,26 @@ describe('CarController (e2e)', () => {
   describe('Trying to add duplicate car', () => {
     it('should not create a new car entry in the db', async () => {
       const createdCar: CreateCarDto = {
-        licensePlate: 'REIREI',
-        country: 'Estonia',
-        subscriptionPlanId: 3,
-        memberId: 5,
+        licensePlate: 'EXAM123',
+        country: 'Denmark',
+        subscriptionPlanId: 1,
+        memberId: 3,
       };
 
-
+  
       const { body } = await request(app.getHttpServer())
         .post('/car')
         .send(createdCar)
         .expect(409);
 
       expect(body.message).toEqual('Car already added to the system');
+    });
+
+    
+    afterEach(async () => {
+      if (createdCarId) {
+        await carRepository.delete(createdCarId);
+      }
     });
   });
 });
