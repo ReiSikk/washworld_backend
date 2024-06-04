@@ -38,12 +38,11 @@ export class CarService {
 
   async findCarsByMember(memberId: number): Promise<Car[]> {
     try {
-      console.log('Querying for member cars with memberId:', memberId); // Log the memberId for debugging
       const memberCars = await this.carRepository.find({
-        where: { member: { id: memberId } },  // Ensure member relation is used correctly
-        relations: ['subscription'], // Ensure the subscription relation is loaded
+        where: { member: { id: memberId } }, 
+        relations: ['subscription'], 
       });
-      console.log('Fetched member cars:', memberCars); // Log the result for debugging
+      console.log('Fetched member cars:', memberCars); 
       return memberCars;
     } catch (error) {
       console.error('Error fetching member cars:', error);

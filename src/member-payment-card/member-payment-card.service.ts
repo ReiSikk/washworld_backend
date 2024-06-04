@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Not } from 'typeorm';
 import { MemberPaymentCard } from './entities/member-payment-card.entity';
 import { CreateMemberPaymentCardDto } from './dto/create-member-payment-card.dto';
 import { UpdateMemberPaymentCardDto } from './dto/update-member-payment-card.dto';
@@ -46,19 +46,41 @@ export class MemberPaymentCardService {
     })
   } */
 
-   async update(paymentCardId: number, updateMemberPaymentCardDto: UpdateMemberPaymentCardDto) {
-    console.log('updated card nr', paymentCardId)
+  async update(paymentCardId: number, updateMemberPaymentCardDto: UpdateMemberPaymentCardDto) {
+    try {
+      return await this.memberPaymentCardRepository.manager.transaction(async transactionalEntityManager => {
+        const memberPaymentCard = await transactionalEntityManager.findOne(MemberPaymentCard, {
+          where: { paymentCard: { id: paymentCardId } },
+          relations: ['member', 'paymentCard']
+        });
   
-    const memberPaymentCard = await this.memberPaymentCardRepository.findOne({
-      where: { paymentCard: { id: paymentCardId } }
-    });
+        if (!memberPaymentCard) {
+          throw new NotFoundException('MemberPaymentCard not found');
+        }
   
-    if (!memberPaymentCard) {
-      throw new NotFoundException('MemberPaymentCard not found');
+        memberPaymentCard.isDefaultMethod = !memberPaymentCard.isDefaultMethod;
+        const updatedMemberPaymentCard = await transactionalEntityManager.save(memberPaymentCard);
+  
+        if (updatedMemberPaymentCard.isDefaultMethod) {
+          const otherCards = await transactionalEntityManager.find(MemberPaymentCard, {
+            where: { member: { id: memberPaymentCard.member.id }, id: Not(memberPaymentCard.id) }
+          });
+  
+          for (const card of otherCards) {
+            console.log(otherCards)
+            card.isDefaultMethod = false;
+            await transactionalEntityManager.save(card);
+          }
+        }
+  
+        return updatedMemberPaymentCard;
+      });
+    } catch (error) {
+      throw error;
     }
-  
-    return this.memberPaymentCardRepository.update(memberPaymentCard.id, updateMemberPaymentCardDto);
   }
+  
+  
 
   async remove(id: number) {
     await this.memberPaymentCardRepository.delete(id);

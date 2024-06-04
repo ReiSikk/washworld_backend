@@ -28,11 +28,12 @@ export class MemberPaymentCardController {
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id') id: string, 
     @Body() updateMemberPaymentCardDto: UpdateMemberPaymentCardDto,
   ) {
     return this.memberPaymentCardService.update(+id, updateMemberPaymentCardDto);
   }
+
 
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {

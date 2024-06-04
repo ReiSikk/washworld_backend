@@ -71,13 +71,6 @@ async findAll(): Promise<Member[]> {
 }
 
 
-/* async upgrade(memberId: number) {
-  const member = await this.findUserById(memberId); // find user by the userId
-  member.role = Role.PremiumUser; // changing the role in memory
-  return this.memberRepository.save(member); //saving the updated user obj. to the db
-} */
-
-
 async addCarAndUpdateMember(memberId: number, createCarDtos: CreateCarDto[], paymentMethodID: string): Promise<AddCarAndUpdateMemberResponse> {
   console.log('MemberId in addCarAndUpdateMember', memberId);
   console.log('createcarDtos in addCarAndUpdateMember', createCarDtos);
@@ -110,16 +103,7 @@ async addCarAndUpdateMember(memberId: number, createCarDtos: CreateCarDto[], pay
         member.active = true;
         await transactionalEntityManager.save(member);
 
-        // Check if payment card exists
-        //const paymentCardId = createCarDtos[0].paymentCardId;
-      /*   let paymentCardFromDb = parseInt(paymentCardId);
-        let paymentCard = await transactionalEntityManager.findOne(PaymentCard, { where: { id: paymentCardFromDb } });
-        if (!paymentCard) {
-          // Create a new payment card if it doesn't exist
-          paymentCard = this.paymentCardRepository.create({ id: paymentCardFromDb });
-          await transactionalEntityManager.save(paymentCard);
-        } */
-
+  
         const paymentCardIdNumber = parseInt(paymentMethodID);
         console.log('paymentCardIdNumber', paymentCardIdNumber);
 
