@@ -34,7 +34,7 @@ export class MemberPaymentCardController {
     return this.memberPaymentCardService.update(+id, updateMemberPaymentCardDto);
   }
 
-
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.memberPaymentCardService.remove(id);
