@@ -47,7 +47,7 @@ export class SupportTicketService {
 
 
   findAll() {
-    return `This action returns all supportTicket`;
+    return this.supportTicketRepository.find();
   }
 
   findOne(id: number) {
