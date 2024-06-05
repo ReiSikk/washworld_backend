@@ -5,6 +5,10 @@ export class CreateSupportTicketDto {
 @IsString()
 description: string;
 
-@IsString()
-photo: string;
+photo: any;
+
+constructor(description: string, photo?: any) {
+    this.description = description,
+    this.photo = photo;
+ }
 }

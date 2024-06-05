@@ -8,6 +8,6 @@ id: number;
 @Column()
 description: string;
 
-@Column()
+@Column({ nullable: true})
 photo: string;
 }
