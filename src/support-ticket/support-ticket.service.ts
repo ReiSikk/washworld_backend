@@ -15,9 +15,34 @@ export class SupportTicketService {
   ) { }
 
 
+  async saveImage(base64EncodedImage: string): Promise<string> {
+    console.log("saveimg called", base64EncodedImage);
+    const formData = new FormData();
+    formData.append('image', base64EncodedImage);
 
-  create(CreateSupportTicketDto: CreateSupportTicketDto) {
-    return this.supportTicketRepository.save(CreateSupportTicketDto);
+    try {
+      const response = await fetch(`https://freeimage.host/api/1/upload?key=${process.env.IMG_API_KEY}`, {
+        method: 'POST',
+        body: formData
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const imageData = await response.json();
+      return imageData;
+    } catch (error) {
+      console.log("error!!!!!");
+      throw error;
+    }
+  }
+
+
+  create(createSupportTicketDto: CreateSupportTicketDto) {
+    const ticket = this.supportTicketRepository.create(createSupportTicketDto);
+  ticket.photo = createSupportTicketDto.photo.image.display_url;
+    return this.supportTicketRepository.save(ticket);
   }
 
 

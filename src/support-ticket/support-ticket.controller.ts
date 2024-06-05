@@ -8,7 +8,9 @@ export class SupportTicketController {
   constructor(private readonly supportTicketService: SupportTicketService) {}
 
   @Post()
-  create(@Body() createSupportTicketDto: CreateSupportTicketDto) {
+  async create(@Body() createSupportTicketDto: CreateSupportTicketDto) {
+    const display_url = await this.supportTicketService.saveImage(createSupportTicketDto.photo);
+    createSupportTicketDto.photo = display_url; //saving the image url to the database
     return this.supportTicketService.create(createSupportTicketDto);
   }
 
