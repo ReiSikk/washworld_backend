@@ -13,6 +13,7 @@ import { CarModule } from './car/car.module';
 import { WashStationModule } from './wash-station/wash-station.module';
 import { WashbayModule } from './washbay/washbay.module';
 import { MemberPaymentCardModule } from './member-payment-card/member-payment-card.module';
+import { SupportTicketModule } from './support-ticket/support-ticket.module';
 
 
 @Module({
@@ -29,6 +30,7 @@ import { MemberPaymentCardModule } from './member-payment-card/member-payment-ca
     WashStationModule,
     WashbayModule,
     MemberPaymentCardModule,
+    SupportTicketModule,
   ],
   controllers: [AppController],
   providers: [AppService],
