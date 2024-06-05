@@ -26,7 +26,7 @@ import {
     @Column({ default: true })
     isActive: boolean;
   
-    @Column({ default: false })
+    @Column({name:'isDefaultMethod', default: false })
     isDefaultMethod: boolean;
   }
   

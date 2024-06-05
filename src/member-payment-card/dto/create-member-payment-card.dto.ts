@@ -9,9 +9,9 @@ export class CreateMemberPaymentCardDto {
 
   @IsBoolean()
   @IsOptional()
-  isActive?: boolean;
+  isActive: boolean;
 
   @IsBoolean()
   @IsOptional()
-  isDefaultMethod?: boolean;
+  isDefaultMethod: boolean;
 }
