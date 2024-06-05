@@ -82,7 +82,23 @@ export class MemberPaymentCardService {
   
   
 
-  async remove(id: number) {
-    await this.memberPaymentCardRepository.delete(id);
+  async remove(paymentCardId: number) {
+    try {
+      const memberPaymentCard = await this.memberPaymentCardRepository.findOne({
+        where: { paymentCard: { id: paymentCardId } },
+        relations: ['member', 'paymentCard']
+      });
+  
+      if (!memberPaymentCard) {
+        throw new NotFoundException('MemberPaymentCard not found');
+      }
+  
+      await this.memberPaymentCardRepository.remove(memberPaymentCard);
+  
+      return { success: true, message: 'MemberPaymentCard removed successfully' };
+    } catch (error) {
+      throw error;
+    }
   }
+
 }
