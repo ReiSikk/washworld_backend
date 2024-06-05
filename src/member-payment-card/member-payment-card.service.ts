@@ -39,13 +39,6 @@ export class MemberPaymentCardService {
     return cardsToDisplay;
   }
 
- /*  findAll(user: User) {
-    console.log("User in entry service find all method", user)
-    return this.entryRepository.find({
-      where: { user: { id: user.id } }
-    })
-  } */
-
   async update(paymentCardId: number, updateMemberPaymentCardDto: UpdateMemberPaymentCardDto) {
     try {
       return await this.memberPaymentCardRepository.manager.transaction(async transactionalEntityManager => {

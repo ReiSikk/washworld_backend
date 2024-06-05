@@ -18,9 +18,6 @@ describe('PaymentCardController', () => {
             {'nameOnCard': 'John Doe', 'cardNumber': '1233 4585 8484 3381', 'expirationDate': '12/23', 'cvv': '123'},
             {'nameOnCard': 'Jane Doe', 'cardNumber': '1233 4585 8484 3382', 'expirationDate': '12/24', 'cvv': '124'}
           ]),
-         /*  findOne: jest.fn(),
-          update: jest.fn(),
-          remove: jest.fn(), */
         },
       }],
     }).compile();

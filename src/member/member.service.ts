@@ -9,7 +9,7 @@ import { Subscription } from '../subscriptions/entities/subscription.entity';
 import { PaymentCard } from '../payment-card/entities/payment-card.entity';
 import { CreateCarDto } from 'src/car/dto/create-car.dto';
 import { MemberPaymentCard } from '../member-payment-card/entities/member-payment-card.entity';
-import { CarService } from '../car/car.service'; // Import CarService here
+import { CarService } from '../car/car.service';
 
 type AddCarAndUpdateMemberResponse = { 
   success: boolean; 
@@ -133,7 +133,6 @@ async addCarAndUpdateMember(memberId: number, createCarDtos: CreateCarDto[], pay
       }
     );
 
-    // Return a success response
     return { success: true, message: 'Car added and member updated successfully' };
   } catch (error) {
     console.error('Error adding car and updating member:', error);

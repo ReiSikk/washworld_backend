@@ -35,10 +35,4 @@ export class MemberController {
   findUserById(@Param('id') id: string) {
     return this.memberService.findUserById(+id);
   }
-
-
- /*  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.memberService.remove(+id);
-  } */
 }

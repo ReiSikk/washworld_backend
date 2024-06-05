@@ -23,10 +23,9 @@ export class WashBay {
   @Column()
   available: boolean;
 
- // Relationship with WashStation table
  @ManyToOne(() => WashStation, washStation => washStation.washBays)
  @JoinColumn({ name: 'washStationId' }) 
- // This specifies the FK column
+ 
  washStation: WashStation;
 
 }

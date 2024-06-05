@@ -24,17 +24,6 @@ export class CarController {
     return this.carService.findOne(+id);
   }
 
-  /* @UseGuards(JwtAuthGuard) */
- /*  @Get('member-cars')
-  findAll(){
-    console.log("findCarsByMember in car controller called");
-  
- 
-    return this.carService.findCarsByMember();
-  } */
-
-
-
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCarDto: UpdateCarDto) {
     return this.carService.update(+id, updateCarDto);
