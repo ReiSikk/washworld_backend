@@ -60,7 +60,6 @@ export class MemberPaymentCardService {
           });
   
           for (const card of otherCards) {
-            console.log(otherCards)
             card.isDefaultMethod = false;
             await transactionalEntityManager.save(card);
           }

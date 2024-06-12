@@ -9,7 +9,6 @@ export class PaymentCardController {
 
   @Post()
   create(@Body() createPaymentCardDto: CreatePaymentCardDto) {
-    console.log(createPaymentCardDto, "backend called with this data")
     return this.paymentCardService.create(createPaymentCardDto);
   }
 

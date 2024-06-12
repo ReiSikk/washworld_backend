@@ -21,7 +21,6 @@ export class MemberController {
       paymentMethodID: string
      },
   ) {
-    console.log("addcar called with:",body.createCarDtos,"memberId:", memberId, "and:", body.paymentMethodID, "body:", body);
     return this.memberService.addCarAndUpdateMember(memberId, body.createCarDtos, body.paymentMethodID);
   }
 

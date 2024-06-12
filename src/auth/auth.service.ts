@@ -12,9 +12,7 @@ export class AuthService {
     ) {}
 
     async signIn(member:any, password): Promise<any> {
-      console.log("email", member.email);
       const userFromDb = await this.memberService.findOne(member.email);
-      console.log("userFromDb", userFromDb);
       const isPasswordCorrect = await bcrypt.compare(password, userFromDb.password);
       
       if (userFromDb && isPasswordCorrect) {

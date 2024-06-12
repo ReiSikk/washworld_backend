@@ -42,7 +42,6 @@ export class CarService {
         where: { member: { id: memberId } }, 
         relations: ['subscription'], 
       });
-      console.log('Fetched member cars:', memberCars); 
       return memberCars;
     } catch (error) {
       console.error('Error fetching member cars:', error);

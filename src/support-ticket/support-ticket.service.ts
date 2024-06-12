@@ -16,7 +16,6 @@ export class SupportTicketService {
 
 
   async saveImage(base64EncodedImage: string): Promise<string> {
-    console.log("saveimg called", base64EncodedImage);
     const formData = new FormData();
     formData.append('image', base64EncodedImage);
 
@@ -33,7 +32,6 @@ export class SupportTicketService {
       const imageData = await response.json();
       return imageData;
     } catch (error) {
-      console.log("error!!!!!");
       throw error;
     }
   }

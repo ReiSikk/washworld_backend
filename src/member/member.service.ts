@@ -72,9 +72,6 @@ async findAll(): Promise<Member[]> {
 
 
 async addCarAndUpdateMember(memberId: number, createCarDtos: CreateCarDto[], paymentMethodID: string): Promise<AddCarAndUpdateMemberResponse> {
-  console.log('MemberId in addCarAndUpdateMember', memberId);
-  console.log('createcarDtos in addCarAndUpdateMember', createCarDtos);
-  console.log('paymentCardId in addCarAndUpdateMember', paymentMethodID);
   try {
     await this.memberRepository.manager.transaction(
       async (transactionalEntityManager) => {
@@ -105,13 +102,11 @@ async addCarAndUpdateMember(memberId: number, createCarDtos: CreateCarDto[], pay
 
   
         const paymentCardIdNumber = parseInt(paymentMethodID);
-        console.log('paymentCardIdNumber', paymentCardIdNumber);
 
         const paymentCard = await transactionalEntityManager.findOne(PaymentCard, { where: { id: paymentCardIdNumber } });
       if (!paymentCard) {
         throw new NotFoundException(`Payment card with ID ${paymentMethodID} not found`);
       }
-        console.log('paymentCard in transaction', paymentCard);
 
         // Check if memberPaymentCard entry exists
         let memberPaymentCard = await transactionalEntityManager.findOne(MemberPaymentCard, { where: { member: { id: memberId }, paymentCard: { id: paymentCardIdNumber } } });
